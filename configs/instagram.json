@@ -1,0 +1,55 @@
+{
+  "profile": "instagram",
+  "background_removal": {
+    "model": "birefnet-massive",
+    "alpha_matting": false,
+    "alpha_matting_foreground_threshold": 240,
+    "alpha_matting_background_threshold": 10,
+    "alpha_matting_erode_size": 10,
+    "keep_largest_component": true
+  },
+  "formats": {
+    "feed": {
+      "width": 1600,
+      "height": 2000,
+      "format": "JPEG",
+      "quality": 97,
+      "background_color": "#FFFFFF",
+      "product_margin_pct": 0.10
+    },
+    "stories": {
+      "width": 1080,
+      "height": 1920,
+      "format": "JPEG",
+      "quality": 97,
+      "background_color": "#FFFFFF",
+      "product_margin_pct": 0.14
+    }
+  },
+  "overlay": {
+    "font_path": "C:\\Windows\\Fonts\\arialbd.ttf",
+    "elements": {
+      "product_name": {
+        "position": "bottom-left",
+        "font_size": 42,
+        "text_color": "#D4AF37",
+        "margin": 50
+      }
+    },
+    "text_background": {
+      "enabled": true,
+      "color": "#16213B",
+      "opacity": 0.85,
+      "padding": 20,
+      "border_color": "#D4AF37",
+      "border_width": 3
+    },
+    "logo": {
+      "enabled": false,
+      "path": "configs/assets/instagram_logo.png",
+      "position": "top-right",
+      "margin": 40,
+      "max_width_pct": 0.18
+    }
+  }
+}
