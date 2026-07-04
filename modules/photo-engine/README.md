@@ -1,5 +1,32 @@
 # Photo Engine
 
+## Alcance del proyecto (decisión, 2026-07-04)
+
+El photo-engine se congela como **herramienta de apoyo simple**:
+
+- **Recorte de fondo** (rembg/BiRefNet, o foto ya recortada con ChatGPT/Nano
+  Banana) — esto sí se mantiene y sigue siendo útil para los tres perfiles.
+- **Redimensionado en lote a formatos** (1:1, 4:5, 9:16 según el perfil).
+- **Overlay de texto básico** (título + precio) — pensado y mantenido
+  para **Wallapop**, uso simple.
+
+Se exploró un overlay "editorial" más avanzado (tipografía Playfair
+Display, logo de marca, franja/desenfoque, recorte agresivo) para los
+perfiles Instagram y El Mes Dolç. Se descarta continuar iterándolo: el
+resultado programático no llega al nivel de una imagen gancho premium, y
+ese tipo de imagen se va a producir **manualmente con IA generativa**
+(Nano Banana / ChatGPT), que da mejor resultado con menos esfuerzo que
+seguir afinando composición/tipografía por código.
+
+El código de ese overlay avanzado (`text_style: "stroke"`, `scrim`,
+`fill_style: "blur"`, fuente Playfair en `assets/fonts/`) se queda tal
+cual en el repo — no se borra, pero tampoco se sigue desarrollando. Los
+perfiles Instagram/El Mes Dolç siguen siendo útiles para la parte de
+recorte + redimensionado por lotes, sin depender de su overlay para la
+imagen final.
+
+## Cómo funciona
+
 Flujo: foto → se obtiene el producto sin fondo (tres vías posibles) → se
 compone sobre uno o varios formatos de salida → se añade el overlay de
 texto/logo del perfil → imagen(es) lista(s), guardadas en `data/outputs/`.
@@ -40,6 +67,17 @@ python modules/photo-engine/main.py --input data/inputs/bolso.jpg --profile inst
 El resultado se guarda como `data/outputs/<nombre>_<perfil>.jpg` (perfiles
 de un solo formato, ej. Wallapop) o `data/outputs/<nombre>_<perfil>_<formato>.jpg`
 (perfiles con varios formatos, ej. Instagram).
+
+**Dos comportamientos automáticos del overlay, válidos para cualquier perfil:**
+
+- Si el texto no cabe en el ancho disponible (frecuente en formatos
+  estrechos como Stories), el tamaño de letra se reduce automáticamente
+  hasta que quepa, sin cortarse.
+- Los emoji u otros caracteres que la fuente no sabe dibujar (Arial no
+  trae glifos de emoji) se eliminan automáticamente del texto antes de
+  dibujarlo, para no dejar un cuadro vacío. Si quieres emoji en la
+  publicación, ponlos en el pie de la publicación al subirla, no en el
+  texto que se graba dentro de la imagen.
 
 ## Texto del overlay (`--title`/`--price`, `--text`)
 

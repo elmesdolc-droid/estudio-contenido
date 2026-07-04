@@ -18,10 +18,11 @@ fases.
 ## Estructura
 
 ```
+assets/fonts/          tipografías compartidas del motor de overlay
 core/                  utilidades compartidas (config, logging, rutas)
 modules/
-  photo-engine/        motor de fotos (fondo + overlay) — fase 1
-  video-engine/         motor de vídeo — futuro
+  photo-engine/        motor de fotos (fondo + redimensionado + overlay básico) — fase 1, cerrada
+  video-engine/         motor de vídeo — fase actual
   agents/
     ideas/              agente de ideas de contenido — futuro
     sound/              agente de sonido/música — futuro
@@ -32,9 +33,15 @@ configs/               perfiles por proyecto (wallapop.json, ...)
 data/                  entradas/salidas locales (no se sube a git)
 ```
 
-## Fase actual: Photo Engine — perfil Wallapop
+## Fase 1 (cerrada): Photo Engine
 
-Flujo: foto de móvil → se quita el fondo → se añade overlay de título y
-precio → imagen 1:1 lista para publicar en Wallapop.
+Recorte de fondo (rembg/BiRefNet o recortado manual con ChatGPT/Nano
+Banana) + redimensionado en lote a formatos (1:1, 4:5, 9:16) + overlay
+básico de texto (título/precio, pensado para Wallapop). Las imágenes
+gancho premium para Instagram/El Mes Dolç se producen manualmente con IA
+generativa, no con este motor — ver "Alcance del proyecto" en
+`modules/photo-engine/README.md`.
 
-Ver `modules/photo-engine/README.md` para instrucciones de uso.
+## Fase actual: Video Engine
+
+Por definir.

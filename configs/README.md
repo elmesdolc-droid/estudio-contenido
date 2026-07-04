@@ -15,4 +15,10 @@ entre proyectos — solo cambia el perfil que se le pasa.
 
 Los tres perfiles usan el mismo motor (`modules/photo-engine/`) y las
 mismas tres vías de recorte de fondo (`rembg` / `chatgpt` / `nanobanana`).
-Los logos de marca (opcionales, aún no añadidos) van en `configs/assets/`.
+Los logos de marca (opcionales) van en `configs/assets/`; El Mes Dolç ya
+tiene el suyo activado, Instagram todavía no.
+
+Nota: el overlay "editorial" de Instagram/El Mes Dolç (tipografía,
+franja/desenfoque, recorte agresivo) se dejó de iterar — ver "Alcance del
+proyecto" en `modules/photo-engine/README.md`. Los tres perfiles siguen
+siendo válidos para recorte + redimensionado en lote.
