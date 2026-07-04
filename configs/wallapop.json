@@ -1,0 +1,31 @@
+{
+  "profile": "wallapop",
+  "output": {
+    "size": 1600,
+    "format": "JPEG",
+    "quality": 90,
+    "background_color": "#FFFFFF",
+    "product_margin_pct": 0.08
+  },
+  "overlay": {
+    "font_path": "C:\\Windows\\Fonts\\arialbd.ttf",
+    "title": {
+      "position": "bottom-left",
+      "font_size": 46,
+      "text_color": "#FFFFFF",
+      "margin": 40
+    },
+    "price": {
+      "position": "bottom-right",
+      "font_size": 56,
+      "text_color": "#FFFFFF",
+      "margin": 40
+    },
+    "text_background": {
+      "enabled": true,
+      "color": "#000000",
+      "opacity": 0.55,
+      "padding": 16
+    }
+  }
+}

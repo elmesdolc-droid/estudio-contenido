@@ -1,0 +1,20 @@
+# Datos locales (fotos de entrada/salida)
+data/inputs/*
+data/outputs/*
+!data/inputs/.gitkeep
+!data/outputs/.gitkeep
+
+# Entorno virtual de Python
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Modelos descargados por rembg
+.u2net/
+
+# Editor / OS
+.vscode/
+Thumbs.db
