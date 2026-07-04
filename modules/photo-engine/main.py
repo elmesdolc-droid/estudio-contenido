@@ -7,28 +7,31 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from PIL import Image
-
 from core.config import load_profile
 from core.paths import DATA_OUTPUTS_DIR
 from core.logging_setup import get_logger
 
-from background import remove_background
-from overlay import compose_canvas, apply_overlay
+from product import load_product
+from overlay import compose_canvas, compose_canvas_fill, apply_overlay
 
 log = get_logger(__name__)
 
 SUPPORTED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
+SOURCES = ("rembg", "chatgpt", "nanobanana")
 
 
 def process_image(
-    input_path: Path, output_dir: Path, title: str, price: str, config: dict
+    input_path: Path,
+    output_dir: Path,
+    title: str,
+    price: str,
+    config: dict,
+    source: str,
 ) -> Path:
-    log.info("Procesando %s", input_path.name)
-    image = Image.open(input_path).convert("RGBA")
+    log.info("Procesando %s (fuente=%s)", input_path.name, source)
 
-    product = remove_background(image)
-    canvas = compose_canvas(product, config)
+    product, needs_margin = load_product(input_path, source, config)
+    canvas = compose_canvas(product, config) if needs_margin else compose_canvas_fill(product, config)
     canvas = apply_overlay(canvas, title, price, config)
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -61,6 +64,15 @@ def main():
     parser.add_argument("--price", required=True, help="Precio del anuncio (ej. '25 EUR')")
     parser.add_argument("--profile", default="wallapop", help="Perfil de configs/ a usar")
     parser.add_argument(
+        "--source",
+        choices=SOURCES,
+        default="rembg",
+        help=(
+            "Vía de recorte de fondo: 'rembg' (automático local, por defecto), "
+            "'chatgpt' o 'nanobanana' (foto ya recortada por ti con esa IA)."
+        ),
+    )
+    parser.add_argument(
         "--output", default=None, help="Carpeta de salida (por defecto data/outputs)"
     )
     args = parser.parse_args()
@@ -74,7 +86,7 @@ def main():
         return
 
     for image_path in inputs:
-        process_image(image_path, output_dir, args.title, args.price, config)
+        process_image(image_path, output_dir, args.title, args.price, config, args.source)
 
     log.info("Listo: %d foto(s) procesada(s).", len(inputs))
 

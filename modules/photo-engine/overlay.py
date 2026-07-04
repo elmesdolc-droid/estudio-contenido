@@ -23,6 +23,23 @@ def _hex_to_rgb(hex_color: str) -> tuple:
     return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
 
 
+def compose_canvas_fill(image: Image.Image, config: dict) -> Image.Image:
+    """Recorta/escala la imagen para rellenar el cuadrado 1:1 por completo,
+    sin bordes. Pensado para fotos ya recortadas externamente con fondo
+    sólido (no transparente), que no deben llevar margen del perfil."""
+    size = config["output"]["size"]
+    img = image.convert("RGB")
+
+    scale = max(size / img.width, size / img.height)
+    new_w = round(img.width * scale)
+    new_h = round(img.height * scale)
+    resized = img.resize((new_w, new_h), Image.LANCZOS)
+
+    left = (new_w - size) // 2
+    top = (new_h - size) // 2
+    return resized.crop((left, top, left + size, top + size))
+
+
 def compose_canvas(product: Image.Image, config: dict) -> Image.Image:
     """Centra el producto (RGBA, sin fondo) sobre un lienzo cuadrado."""
     out_cfg = config["output"]
